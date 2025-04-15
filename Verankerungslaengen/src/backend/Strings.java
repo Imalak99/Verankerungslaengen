@@ -8,7 +8,7 @@ public class Strings {
 			double lbd, double a1, double a2, double a3, double a4, double a5, double ausnutzung, double lbrqdy,
 			double lbmin) {
 		StringBuilder s = new StringBuilder();
-		s.append("\nÜbersicht:\n===========\n");
+		s.append("Ergebnisse:\n===========\n");
 		s.append(String.format("Stahlfestigkeit fyd = 500/1,15 = %.2f [N/mm²]\n", fyd));
 		s.append(String.format("Betongüte: %s\n", betonklasse));
 		s.append(String.format("Verbundbedingung: %s\n", guterVerbund ? "guter Verbund" : "mäßiger Verbund"));
@@ -23,7 +23,7 @@ public class Strings {
 		s.append(String.format("Querdruck: %s (α5 = %.2f)\n", querdruck ? "Direktes Auflager" : "", a5));
 		s.append("\n");
 		s.append(String.format(
-				"Grundmaß: lb,rqd,y = (ds / 4) * (fyd / fbd)\n                   = (%.2f / 4) * (%.2f / %.2f)\n                   = %.2f [mm]\n",
+				"Grundmaß:\nlb,rqd,y = (ds / 4) * (fyd / fbd)\n                   = (%.2f / 4) * (%.2f / %.2f)\n                   = %.2f [mm]\n",
 				ds, fyd, fbd, lbrqdy));
 		s.append("\n");
 		s.append(String.format("As erf. = %.2f [cm²]\n", erfB));
