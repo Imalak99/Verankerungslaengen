@@ -106,4 +106,15 @@ public class GuiEingabeParameter {
 
 	}
 
+	public static boolean engeVerbuegelungStringToBoolean(String engeVerbuegelungAuswahl) {
+		if (engeVerbuegelungAuswahl == "vorhanden") {
+			return true;
+		} else if (engeVerbuegelungAuswahl == "nicht vorhanden") {
+			return false;
+		} else {
+			System.out.println("Fehler in Methode: engeVerbuegelungStringToBoolean");
+			return false;
+		}
+	}
+
 }

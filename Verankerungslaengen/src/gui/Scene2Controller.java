@@ -5,6 +5,7 @@ import java.io.IOException;
 import backend.Calculation;
 import backend.ClipboardUtil;
 import backend.GuiEingabeParameter;
+import backend.InfoTexte;
 import backend.Kenngrößen;
 import backend.Strings;
 import javafx.event.ActionEvent;
@@ -13,9 +14,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Scene2Controller {
@@ -26,9 +30,26 @@ public class Scene2Controller {
 	@FXML
 	private TextArea ergebnisFeld;
 	@FXML
+	private TextArea infoFeld;
+	@FXML
 	private TextField textFieldErfBew;
 	@FXML
 	private TextField textFieldVorBew;
+	@FXML
+	private TextField textFieldHorizontalerAbstand;
+	@FXML
+	private TextField textFieldBetondeckungSeitlich;
+	@FXML
+	private TextField textFieldBetondeckungObenUnten;
+	@FXML
+	private TextField textFieldDSchlaufe;
+	@FXML
+	private Label labelDSchlaufe;
+	@FXML
+	private Label labelDSchlaufeEinheit;
+	@FXML
+	private Button infoButtonDSchlaufe;
+
 	private String ergebnisStringsInTextFeld;
 
 	private String[] zugDruckstab = { "Zugstab", "Druckstab" };
@@ -40,17 +61,23 @@ public class Scene2Controller {
 			"28 mm" };
 	private String[] angeschweißteQuerstaebe = { "vorhanden", "nicht vorhanden" };
 	private String[] lagerung = { "vorhanden", "nicht vorhanden" };
+	private String[] engeVerbuegelung = { "vorhanden", "nicht vorhanden" };
 
 	private String zugDruckstabAuswahl = zugDruckstab[0];
 	private String verankerungsartAuswahl = verankerungsart[0];
 	private String betonklasseAuswahl = betonklasse[0];
 	private String verbundbedingungAuswahl = verbundbedingung[0];
 	private String stabdurchmesserAuswahl = stabdurchmesser[0];
-	private String angeschweißteQuerstaebeAuswahl = angeschweißteQuerstaebe[0];
-	private String lagerungAuswahl = lagerung[0];
+	private String angeschweißteQuerstaebeAuswahl = angeschweißteQuerstaebe[1];
+	private String lagerungAuswahl = lagerung[1];
+	private String engeVerbuegelungAuswahl = engeVerbuegelung[1];
 	private double vorhandeneBew = 1.;
 	private double erforderlicheBew = 1.;
 	private double fyd = 435;
+	private double horizontalerAbstand = 150;
+	private double betondeckungSeitlich = 30;
+	private double betondeckungObenUnten = 30;
+	private double dSchlaufe = 100;
 
 	@FXML
 	private ComboBox<String> choiceBoxZugDruckstab;
@@ -67,6 +94,8 @@ public class Scene2Controller {
 
 	@FXML
 	private ComboBox<String> choiceBoxLagerung;
+	@FXML
+	private ComboBox<String> choiceBoxEngeVerbuegelung;
 
 	public void switchToScene1(ActionEvent event) throws IOException {
 
@@ -80,6 +109,36 @@ public class Scene2Controller {
 	@FXML
 	public void initialize() {
 		System.out.println("initialize aufgerufen");
+		textFieldErfBew.setText("10");
+		textFieldVorBew.setText("10");
+		textFieldHorizontalerAbstand.setText("100");
+		textFieldBetondeckungObenUnten.setText("30");
+		textFieldBetondeckungSeitlich.setText("30");
+		textFieldDSchlaufe.setDisable(true);
+
+		infoButtonDSchlaufe.setDisable(true);
+		infoButtonDSchlaufe.setTextFill(Color.GRAY);
+
+		// Listener für die ComboBox
+		choiceBoxVerankerungsart.valueProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.equals("Schlaufe")) {
+				textFieldDSchlaufe.setDisable(false); // Aktivieren bei Auswahl "Schlaufe"
+				infoButtonDSchlaufe.setDisable(false);
+				labelDSchlaufe.setTextFill(Color.BLACK);
+				labelDSchlaufeEinheit.setTextFill(Color.BLACK);
+				infoButtonDSchlaufe.setTextFill(Color.BLACK);
+			} else {
+				textFieldDSchlaufe.setDisable(true); // Deaktivieren bei Auswahl "Andere Art"
+				infoButtonDSchlaufe.setDisable(true);
+				labelDSchlaufe.setTextFill(Color.GRAY);
+				labelDSchlaufeEinheit.setTextFill(Color.GRAY);
+				infoButtonDSchlaufe.setTextFill(Color.GRAY);
+			}
+		});
+
+		labelDSchlaufe.setTextFill(Color.GRAY);
+		labelDSchlaufeEinheit.setTextFill(Color.GRAY);
+
 		choiceBoxZugDruckstab.getItems().addAll(zugDruckstab);
 		choiceBoxZugDruckstab.setValue(zugDruckstab[0]);
 
@@ -96,10 +155,13 @@ public class Scene2Controller {
 		choiceBoxStabdurchmesser.setValue(stabdurchmesser[0]);
 
 		choiceBoxAngeschweißteQuerstäbe.getItems().addAll(angeschweißteQuerstaebe);
-		choiceBoxAngeschweißteQuerstäbe.setValue(angeschweißteQuerstaebe[0]);
+		choiceBoxAngeschweißteQuerstäbe.setValue(angeschweißteQuerstaebe[1]);
 
 		choiceBoxLagerung.getItems().addAll(lagerung);
-		choiceBoxLagerung.setValue(lagerung[0]);
+		choiceBoxLagerung.setValue(lagerung[1]);
+
+		choiceBoxEngeVerbuegelung.getItems().addAll(engeVerbuegelung);
+		choiceBoxEngeVerbuegelung.setValue(engeVerbuegelung[1]);
 
 		// Event-Handler für Auswahl
 		choiceBoxZugDruckstab.setOnAction(e -> {
@@ -123,35 +185,19 @@ public class Scene2Controller {
 		choiceBoxLagerung.setOnAction(e -> {
 			this.lagerungAuswahl = choiceBoxLagerung.getValue();
 		});
+		choiceBoxEngeVerbuegelung.setOnAction(e -> {
+			this.engeVerbuegelungAuswahl = choiceBoxEngeVerbuegelung.getValue();
+		});
 
 	}
-
-//	DIESE ZWEI METHODEN DIEN ALS ALTERNATIVE ZU DER INIZIALIZE METHODE ALLEINE
-
-//	private void initChoiceBox(ComboBox<String> comboBox, String[] values, Consumer<String> onChange) {
-//	    comboBox.getItems().addAll(values);
-//	    comboBox.setValue(values[0]);
-//	    comboBox.setOnAction(e -> {
-//	        String value = comboBox.getValue();
-//	        onChange.accept(value);
-//	    });
-//	}
-//	@FXML
-//	public void initialize() {
-//	    System.out.println("initialize aufgerufen");
-//
-//	    initChoiceBox(choiceBoxZugDruckstab, zugDruckstab, value -> this.zugDruckstabAuswahl = value);
-//	    initChoiceBox(choiceBoxVerankerungsart, verankerungsart, value -> this.verankerungsartAuswahl = value);
-//	    initChoiceBox(choiceBoxBetonklasse, betonklasse, value -> this.betonklasseAuswahl = value);
-//	    initChoiceBox(choiceBoxVerbundbedingung, verbundbedingung, value -> this.verbundbedingungAuswahl = value);
-//	    initChoiceBox(choiceBoxStabdurchmesser, stabdurchmesser, value -> this.stabdurchmesserAuswahl = value);
-//	    initChoiceBox(choiceBoxAngeschweißteQuerstäbe, angeschweißteQuerstäbe, value -> this.angeschweißteQuerstäbeAuswahl = value);
-//	    initChoiceBox(choiceBoxLagerung, lagerung, value -> this.lagerungAuswahl = value);
-//	}
 
 	public void berechneErgebnis(ActionEvent event) throws IOException {
 		submitErfBew(event);
 		submitVorBew(event);
+		submitBetondeckungObenUnten(event);
+		submitBetondeckungSeitlich(event);
+		submitHorizontalerAbstand(event);
+		submitDSchlaufe(event);
 
 		int betonwahl = GuiEingabeParameter.betonwahlStringToInt(this.betonklasseAuswahl);
 		boolean guterVerbund = GuiEingabeParameter.guterVerbundStringToBoolean(this.verbundbedingungAuswahl);
@@ -161,12 +207,17 @@ public class Scene2Controller {
 		boolean zugstab = GuiEingabeParameter.zugstabStringToBoolean(this.zugDruckstabAuswahl);
 		boolean geraderStab = GuiEingabeParameter.geraderStabStringToBoolean(this.verankerungsartAuswahl);
 		int verankerungsart = GuiEingabeParameter.verankerungsartStringToInt(verankerungsartAuswahl);
-		boolean engeVerbuegelung = true; // noch in der GUI ergänzen!!!
-		double a = 150.; // Horizontaler Abstand der Längsbewehrungseisen in mm, noch vergänzen in GUI
-		double c1 = 35; // Betondeckung zur Seite in mm ----"-----
-		double c = 35; // Betondeckung nach unten in mm ----"-----
+		boolean engeVerbuegelung = GuiEingabeParameter.engeVerbuegelungStringToBoolean(engeVerbuegelungAuswahl); // noch
+																													// in
+																													// der
+																													// GUI
+																													// ergänzen!!!
+		double a = this.horizontalerAbstand; // Horizontaler Abstand der Längsbewehrungseisen in mm, noch vergänzen in
+												// GUI
+		double c1 = this.betondeckungSeitlich; // Betondeckung zur Seite in mm ----"-----
+		double c = this.betondeckungObenUnten; // Betondeckung nach unten in mm ----"-----
 		double cd = GuiEingabeParameter.berechneCd(verankerungsartAuswahl, a, c1, c);
-		double dSchlaufe = 100; // Durchmesser der Schlaufe in mm ----"-----
+		double dSchlaufe = this.dSchlaufe; // Durchmesser der Schlaufe in mm ----"-----
 
 		String stabdurchmesserOnlyNumber = this.stabdurchmesserAuswahl.replaceAll("[^\\d.]", "");
 		double stabdurchmesser = Double.parseDouble(stabdurchmesserOnlyNumber);
@@ -177,12 +228,13 @@ public class Scene2Controller {
 		boolean angeschweißteQuerstaebe = GuiEingabeParameter
 				.angeschweißteQuerstaebeStringToBoolean(this.angeschweißteQuerstaebeAuswahl); // in GUI ergänzen
 		double a4 = Calculation.a4(angeschweißteQuerstaebe);
-		double a5 = 1.;
+		boolean querdruck = GuiEingabeParameter.querdruckStringToBoolean(this.lagerungAuswahl);
+		double a5 = Calculation.a5(zugstab, querdruck);
 		double ausnutzung = this.erforderlicheBew / this.vorhandeneBew;
 
 		double lbd = Calculation.berechneVerankerungslaenge(stabdurchmesser, this.fyd, fbd, a1, a2, a3, a4, a5,
 				ausnutzung);
-		boolean querdruck = GuiEingabeParameter.querdruckStringToBoolean(this.lagerungAuswahl);
+
 		double lbrqdy = Calculation.berechneGrundmaß(stabdurchmesser, fyd, fbd);
 		double lbmin = Calculation.berechnelbmin(zugstab, querdruck, stabdurchmesser, a1, a4, lbrqdy);
 		lbd = Math.max(lbd, lbmin);
@@ -229,6 +281,116 @@ public class Scene2Controller {
 			// Fehlermeldung anzeigen oder behandeln
 			System.out.println(" Methode submitVorBew Ungültige Eingabe: " + this.vorhandeneBew);
 		}
+	}
+
+	public void submitHorizontalerAbstand(ActionEvent event) {
+		String horizontalerAbstand = textFieldHorizontalerAbstand.getText().trim();
+		horizontalerAbstand = horizontalerAbstand.replace(",", "."); // Kommas durch Punkte ersetzen
+		try {
+			double doubleHorizontalerAbstand = Double.parseDouble(horizontalerAbstand);
+			this.horizontalerAbstand = doubleHorizontalerAbstand;
+		} catch (NumberFormatException e) {
+			// Fehlermeldung anzeigen oder behandeln
+			System.out.println(" Methode submitHorizontalerAbstand Ungültige Eingabe: " + this.horizontalerAbstand);
+		}
+	}
+
+	public void submitBetondeckungSeitlich(ActionEvent event) {
+		String seitlicheBetondeckung = textFieldBetondeckungSeitlich.getText().trim();
+		seitlicheBetondeckung = seitlicheBetondeckung.replace(",", "."); // Kommas durch Punkte ersetzen
+		try {
+			double doubleSeitlicheBetondeckung = Double.parseDouble(seitlicheBetondeckung);
+			this.betondeckungSeitlich = doubleSeitlicheBetondeckung;
+//			System.out.println("Eingabe war: " + this.vorhandeneBew);
+		} catch (NumberFormatException e) {
+			// Fehlermeldung anzeigen oder behandeln
+			System.out.println(" Methode submitBetondeckungSeitlich Ungültige Eingabe: " + this.betondeckungSeitlich);
+		}
+	}
+
+	public void submitBetondeckungObenUnten(ActionEvent event) {
+		String obenUntenBetondeckung = textFieldBetondeckungObenUnten.getText().trim();
+		obenUntenBetondeckung = obenUntenBetondeckung.replace(",", "."); // Kommas durch Punkte ersetzen
+		try {
+			double doubleObenUntenBetondeckung = Double.parseDouble(obenUntenBetondeckung);
+			this.betondeckungObenUnten = doubleObenUntenBetondeckung;
+//			System.out.println("Eingabe war: " + this.vorhandeneBew);
+		} catch (NumberFormatException e) {
+			// Fehlermeldung anzeigen oder behandeln
+			System.out.println(" Methode submitBetondeckungObenUnten Ungültige Eingabe: " + this.betondeckungObenUnten);
+		}
+	}
+
+	public void submitDSchlaufe(ActionEvent event) {
+		String dSchlaufe = textFieldDSchlaufe.getText().trim();
+		dSchlaufe = dSchlaufe.replace(",", "."); // Kommas durch Punkte ersetzen
+		System.out.println(dSchlaufe);
+		try {
+			double doubledSchlaufe = Double.parseDouble(dSchlaufe);
+			this.dSchlaufe = doubledSchlaufe;
+//			System.out.println("Eingabe war: " + this.vorhandeneBew);
+		} catch (NumberFormatException e) {
+			// Fehlermeldung anzeigen oder behandeln
+			System.out.println(" Methode submitsubmitDSchlaufe Ungültige Eingabe: " + this.dSchlaufe);
+		}
+	}
+
+	public void handleInfoFeld(ActionEvent event) throws IOException {
+		Button clickedButton = (Button) event.getSource();
+		String buttonId = clickedButton.getId();
+//		System.out.println("Wir sind in der Methode handleInfoFeld");
+
+		switch (buttonId) {
+		case "infoButtonVerankerungslaenge":
+			infoFeld.setText(InfoTexte.VERANKERUNGSLAENGE);
+			break;
+		case "infoButtonZugDruckstab":
+			infoFeld.setText(InfoTexte.ZUG_DRUCKSTAB);
+			break;
+		case "infoButtonVerankerungsart":
+			infoFeld.setText(InfoTexte.VERANKERUNGSART);
+			break;
+		case "infoButtonDSchlaufe":
+			infoFeld.setText(InfoTexte.DSCHLAUFE);
+			break;
+		case "infoButtonBetonklasse":
+			infoFeld.setText(InfoTexte.BETONKLASSE);
+			break;
+		case "infoButtonVerbundbedingung":
+			infoFeld.setText(InfoTexte.VERBUNDBEDINGUNG);
+			break;
+		case "infoButtonStabdurchmesser":
+			infoFeld.setText(InfoTexte.STABDURCHMESSER);
+			break;
+		case "infoButtonAngeschweißteQuerstaebe":
+			infoFeld.setText(InfoTexte.ANGESCHWEISSTE_QUERSTÄBE);
+			break;
+		case "infoButtonDirekteLagerung":
+			infoFeld.setText(InfoTexte.DIREKTE_LAGERUNG);
+			break;
+		case "infoButtonEngeverbuegelung":
+			infoFeld.setText(InfoTexte.ENGERVERBÜGELUNG);
+			break;
+		case "infoButtonHorizontalerAbstandDerLaengseisen":
+			infoFeld.setText(InfoTexte.HORIZONTALER_ABSTAND_LAENGSEISEN);
+			break;
+		case "infoButtonBetondeckungSeitlich":
+			infoFeld.setText(InfoTexte.BETONDECKUNG_SEITLICH);
+			break;
+		case "infoButtonBetondeckungObenUnten":
+			infoFeld.setText(InfoTexte.BETONDECKUNG_OBEN_UNTEN);
+			break;
+		case "infoButtonErfBewehrung":
+			infoFeld.setText(InfoTexte.ERFORDERLICHE_BEWEHRUNG);
+			break;
+		case "infoButtonVorBewehrung":
+			infoFeld.setText(InfoTexte.VORHANDENE_BEWEHRUNG);
+			break;
+		default:
+			infoFeld.setText("Kein Info-Text vorhanden.");
+			break;
+		}
+
 	}
 
 }

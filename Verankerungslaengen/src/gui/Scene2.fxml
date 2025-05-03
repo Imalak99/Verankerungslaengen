@@ -6,130 +6,173 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0" prefWidth="1237.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Scene2Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="910.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Scene2Controller">
    <children>
-      <Label alignment="CENTER" layoutX="-6.0" layoutY="13.0" prefHeight="35.0" prefWidth="1271.0" text="Verankerungslängen">
+      <TextArea fx:id="ergebnisFeld" editable="false" layoutX="474.0" layoutY="64.0" prefHeight="723.0" prefWidth="417.0" promptText="Berechnungsergebnisse" AnchorPane.bottomAnchor="63.0" AnchorPane.topAnchor="64.0" />
+      <Button layoutX="250.0" layoutY="851.0" mnemonicParsing="false" onAction="#berechneErgebnis" prefHeight="25.0" prefWidth="150.0" text="Berechnen" AnchorPane.leftAnchor="250.0" />
+      <Button layoutX="481.0" layoutY="798.0" mnemonicParsing="false" onAction="#ergebnisseInZwischenablageKopieren" prefHeight="25.0" prefWidth="417.0" text="Berechnungsergebnisse in Ziwschenablage kopieren" AnchorPane.bottomAnchor="27.0" />
+      <VBox layoutX="54.0" layoutY="64.0" prefHeight="416.0" prefWidth="175.0" spacing="35.0" AnchorPane.leftAnchor="54.0">
+         <children>
+            <Label text="Zug-/Druckstab">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Verankerungsart">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelDSchlaufe" text="Durchmesser Schlaufe&#10;">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Betonklasse">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Verbundbedignung">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Stabdurchmesser">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Angeschweißte Querstäbe">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Direkte Lagerung">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Enge Verbügelung">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToScene1" text="Zurück zum Hauptmenü" />
+      <Label alignment="CENTER" layoutX="463.0" layoutY="9.0" prefHeight="35.0" prefWidth="228.0" text="Verankerungslänge">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox fx:id="choiceBoxVerankerungsart" layoutX="214.0" layoutY="119.0" onAction="#initialize" prefWidth="150.0" />
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToScene1" text="Zurück zum Hauptmenü" />
-      <Label layoutX="15.0" layoutY="121.0" text="Verankerungsart">
+      <VBox layoutX="250.0" layoutY="61.0" prefHeight="435.0" prefWidth="150.0" spacing="30.0" AnchorPane.leftAnchor="250.0">
+         <children>
+            <ComboBox fx:id="choiceBoxZugDruckstab" onAction="#initialize" prefWidth="150.0" />
+            <ComboBox fx:id="choiceBoxVerankerungsart" onAction="#initialize" prefWidth="150.0" />
+            <TextField fx:id="textFieldDSchlaufe" onAction="#submitDSchlaufe" />
+            <ComboBox fx:id="choiceBoxBetonklasse" onAction="#initialize" prefWidth="150.0" />
+            <ComboBox fx:id="choiceBoxVerbundbedingung" onAction="#initialize" prefWidth="150.0" />
+            <ComboBox fx:id="choiceBoxStabdurchmesser" onAction="#initialize" prefWidth="150.0" />
+            <ComboBox fx:id="choiceBoxAngeschweißteQuerstäbe" onAction="#initialize" prefWidth="150.0" />
+            <ComboBox fx:id="choiceBoxLagerung" onAction="#initialize" prefWidth="150.0" />
+            <ComboBox fx:id="choiceBoxEngeVerbuegelung" onAction="#initialize" prefWidth="150.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="250.0" layoutY="562.0" prefHeight="261.0" prefWidth="150.0" spacing="34.0" AnchorPane.leftAnchor="250.0">
+         <children>
+            <TextField fx:id="textFieldHorizontalerAbstand" onAction="#submitHorizontalerAbstand" prefHeight="25.0" prefWidth="150.0" />
+            <TextField fx:id="textFieldBetondeckungSeitlich" onAction="#submitBetondeckungSeitlich" prefHeight="25.0" prefWidth="150.0" />
+            <TextField fx:id="textFieldBetondeckungObenUnten" onAction="#submitBetondeckungObenUnten" prefHeight="25.0" prefWidth="150.0" />
+            <TextField fx:id="textFieldErfBew" onAction="#submitErfBew" prefHeight="25.0" prefWidth="150.0" />
+            <TextField fx:id="textFieldVorBew" onAction="#submitVorBew" prefHeight="25.0" prefWidth="150.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="409.0" layoutY="562.0" prefHeight="256.0" prefWidth="39.0" spacing="39.0">
+         <children>
+            <Label text="[mm]">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="[mm]">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="[mm]">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="[cm2]">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="[cm2]">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <TextArea fx:id="infoFeld" editable="false" layoutX="920.0" layoutY="64.0" prefHeight="723.0" prefWidth="359.0" promptText="Parameterinformationen" AnchorPane.bottomAnchor="63.0" AnchorPane.topAnchor="64.0" />
+      <VBox layoutX="14.0" layoutY="64.0" prefHeight="325.0" prefWidth="33.0" spacing="30.0">
+         <children>
+            <Button fx:id="infoButtonZugDruckstab" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonVerankerungsart" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonDSchlaufe" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonBetonklasse" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonVerbundbedingung" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonStabdurchmesser" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonAngeschweißteQuerstaebe" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonDirekteLagerung" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonEngeverbuegelung" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonHorizontalerAbstandDerLaengseisen" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonBetondeckungSeitlich" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonBetondeckungObenUnten" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonErfBewehrung" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+            <Button fx:id="infoButtonVorBewehrung" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
+         </children>
+      </VBox>
+      <VBox layoutX="54.0" layoutY="617.0" prefHeight="86.0" prefWidth="175.0" spacing="35.0" AnchorPane.leftAnchor="54.0">
+         <children>
+            <Label text="c1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="c">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Erf. Bewehrung">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Vor. Bewehrung">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Label layoutX="59.0" layoutY="548.0" prefHeight="45.0" prefWidth="166.0" text="a" AnchorPane.leftAnchor="59.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="160.0" text="Betonklasse">
+      <Label fx:id="labelDSchlaufeEinheit" layoutX="410.0" layoutY="173.0" text="[mm]">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="choiceBoxBetonklasse" layoutX="214.0" layoutY="157.0" onAction="#initialize" prefWidth="150.0" />
-      <ComboBox fx:id="choiceBoxZugDruckstab" layoutX="213.0" layoutY="83.0" onAction="#initialize" prefWidth="150.0" />
-      <Label layoutX="15.0" layoutY="85.0" text="Zug-/Druckstab">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="15.0" layoutY="201.0" text="Verbundbedignung">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="choiceBoxVerbundbedingung" layoutX="214.0" layoutY="198.0" onAction="#initialize" prefWidth="150.0" />
-      <Label layoutX="15.0" layoutY="240.0" text="Stabdurchmesser">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="choiceBoxStabdurchmesser" layoutX="214.0" layoutY="237.0" onAction="#initialize" prefWidth="150.0" />
-      <Label layoutX="15.0" layoutY="278.0" text="Angeschweißte Querstäbe">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="choiceBoxAngeschweißteQuerstäbe" layoutX="214.0" layoutY="275.0" onAction="#initialize" prefWidth="150.0" />
-      <Label layoutX="14.0" layoutY="319.0" text="Direkte Lagerung">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="choiceBoxLagerung" layoutX="213.0" layoutY="316.0" onAction="#initialize" prefWidth="150.0" />
-      <Label layoutX="14.0" layoutY="523.0" text="Erf. Bewehrung">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="11.0" layoutY="556.0" text="Vor. Bewehrung">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="textFieldErfBew" layoutX="214.0" layoutY="521.0" onAction="#submitErfBew" prefHeight="25.0" prefWidth="150.0" />
-      <TextField fx:id="textFieldVorBew" layoutX="214.0" layoutY="559.0" onAction="#submitVorBew" prefHeight="25.0" prefWidth="150.0" />
-      <TextArea fx:id="ergebnisFeld" editable="false" layoutX="707.0" layoutY="80.0" prefHeight="463.0" prefWidth="500.0" />
-      <Button layoutX="496.0" layoutY="241.0" mnemonicParsing="false" onAction="#berechneErgebnis" prefHeight="25.0" prefWidth="131.0" text="Berechnen">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="707.0" layoutY="564.0" mnemonicParsing="false" onAction="#ergebnisseInZwischenablageKopieren" prefHeight="25.0" prefWidth="240.0" text="Ergebnisse in Ziwschenablage kopieren" />
-      <Label layoutX="15.0" layoutY="360.0" text="Enge Verbügelung">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <ComboBox layoutX="213.0" layoutY="358.0" prefWidth="150.0" />
-      <Label layoutX="15.0" layoutY="399.0" text="Horizontaler Abstand der">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="15.0" layoutY="421.0" text="Längsbewehrungseisen">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="textFieldErfBew1" layoutX="213.0" layoutY="397.0" prefHeight="25.0" prefWidth="150.0" />
-      <Label layoutX="372.0" layoutY="399.0" text="[mm]">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="372.0" layoutY="523.0" text="[cm2]">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="372.0" layoutY="561.0" text="[cm2]">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="14.0" layoutY="451.0" text="Betondeckung seitlich">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="15.0" layoutY="489.0" text="Betondeckung oben/unten">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="textFieldErfBew11" layoutX="214.0" layoutY="449.0" prefHeight="25.0" prefWidth="150.0" />
-      <Label layoutX="373.0" layoutY="451.0" text="[mm]">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="textFieldErfBew12" layoutX="214.0" layoutY="487.0" prefHeight="25.0" prefWidth="150.0" />
-      <Label layoutX="373.0" layoutY="489.0" text="[mm]">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <Button fx:id="infoButtonVerankerungslaenge" layoutX="433.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleInfoFeld" prefHeight="25.0" prefWidth="27.0" text="[i]" />
    </children>
 </AnchorPane>

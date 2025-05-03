@@ -1,2 +1,26 @@
 To-Do:
-Für jede Scene einen eigenen Controller erstellen.
+------
+
+-Prüfen welchen einfluss die Enge verbügelung hat und was genau das eigentlich ist.
+
+-Gültigkeitsbereiche für die Betondeckung und den horizontalen Abstand der Längseisen einführen. 
+
+-Strings so formatieren, das Potenzen hoch- sind und Indizes tiefgestellt sind.
+
+-Neben dem Textfeld für ergebnisse ein TextFeld für Infos zu den einzelnen Eingabeparamtern erstellen.✔
+
+-Neben jeden Eingabeparamter soll dann ein Button mit [i] für infos erstellt werden. Wenn dieser Button geklickt wird
+ wird in dem Info TextFeld angezeigt:✔
+									
+	1) Was dieser Eingabeparameter ist bzw. wann dieser vorhanden/nicht vorhanden ist
+								
+	2) Was für einen Einfluss dieser Paramter auf die Verankerungslänge hat
+															
+	3) Wie man ihn bestimmt
+	
+	
+Zugstab:
+-Alle Verankerungsarten sind zugelassen 
+
+Druckstab:
+-Nur gerades Stabende als Verankerungsart zugelassen
