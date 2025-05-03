@@ -4,9 +4,9 @@ public class Strings {
 
 	public static String uebersichtsAusgabe(boolean zugstab, int va, boolean geraderStab, boolean engeVerbuegelung,
 			double fyd, String betonklasse, boolean guterVerbund, double fbd, double ds, double dSchlaufe,
-			String verankerungsart, double cd, boolean querstaebe, boolean querdruck, double erfB, double vorhB,
-			double lbd, double a1, double a2, double a3, double a4, double a5, double ausnutzung, double lbrqdy,
-			double lbmin) {
+			String verankerungsart, double cd, double a, double c1, double c, boolean querstaebe, boolean querdruck,
+			double erfB, double vorhB, double lbd, double a1, double a2, double a3, double a4, double a5,
+			double ausnutzung, double lbrqdy, double lbmin) {
 		StringBuilder s = new StringBuilder();
 //		s.append("E R G E B N I S S E:\n===========\n");
 		s.append("RANDBEDINGUNGEN\n");
@@ -16,13 +16,16 @@ public class Strings {
 		s.append(String.format("Verbundbedingung: %s\n", guterVerbund ? "guter Verbund" : "mäßiger Verbund"));
 		s.append(String.format("Verbundspannung: fbd = %.2f [N/mm²]\n", fbd));
 		s.append(String.format("Bewehrungsdurchmesser: %.0f [mm]\n", ds));
-		s.append(String.format("Maßgebende Betondeckung: cd = %.2f [mm]\n", cd)); // Ausdruck richtig?
+		s.append(String.format("a = %.2f [mm]\n", a));
+		s.append(String.format("c1 = %.2f [mm]\n", c1));
+		s.append(String.format("c = %.2f [mm]\n", c));
+		s.append(String.format("cd = %.2f [mm]\n", cd));
 		s.append(String.format("Verankerung: %s\n", verankerungsart));
-		s.append(String.format("Mindestbetondeckung: %.2f [mm]\n", cd));
 		s.append(String.format("Querbewehrung: vernachlässigt\n", a3));
 		s.append(String.format("Angeschweißte Querstäbe: %s \n", querstaebe ? "vorhanden" : "nicht vorhanden"));
 		s.append(String.format("Direkte Lagerung: %s\n", querdruck ? "Vorhanden" : "nicht Vorhanden"));
 		s.append(String.format("Enge Verbügelung: %s\n", engeVerbuegelung ? "Vorhanden" : "nicht Vorhanden"));
+
 		s.append("\n");
 
 		s.append("ALPHA-WERTE\n");

@@ -19,6 +19,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -31,6 +33,8 @@ public class Scene2Controller {
 	private TextArea ergebnisFeld;
 	@FXML
 	private TextArea infoFeld;
+	@FXML
+	private ImageView infoBild;
 	@FXML
 	private TextField textFieldErfBew;
 	@FXML
@@ -74,9 +78,9 @@ public class Scene2Controller {
 	private double vorhandeneBew = 1.;
 	private double erforderlicheBew = 1.;
 	private double fyd = 435;
-	private double horizontalerAbstand = 150;
-	private double betondeckungSeitlich = 30;
-	private double betondeckungObenUnten = 30;
+	private double a = 150;
+	private double c1 = 30;
+	private double c = 30;
 	private double dSchlaufe = 100;
 
 	@FXML
@@ -212,10 +216,10 @@ public class Scene2Controller {
 																													// der
 																													// GUI
 																													// ergänzen!!!
-		double a = this.horizontalerAbstand; // Horizontaler Abstand der Längsbewehrungseisen in mm, noch vergänzen in
-												// GUI
-		double c1 = this.betondeckungSeitlich; // Betondeckung zur Seite in mm ----"-----
-		double c = this.betondeckungObenUnten; // Betondeckung nach unten in mm ----"-----
+		double a = this.a; // Horizontaler Abstand der Längsbewehrungseisen in mm, noch vergänzen in
+							// GUI
+		double c1 = this.c1; // Betondeckung zur Seite in mm ----"-----
+		double c = this.c; // Betondeckung nach unten in mm ----"-----
 		double cd = GuiEingabeParameter.berechneCd(verankerungsartAuswahl, a, c1, c);
 		double dSchlaufe = this.dSchlaufe; // Durchmesser der Schlaufe in mm ----"-----
 
@@ -240,7 +244,7 @@ public class Scene2Controller {
 		lbd = Math.max(lbd, lbmin);
 		String uebersicht = new String(Strings.uebersichtsAusgabe(zugstab, verankerungsart, geraderStab,
 				engeVerbuegelung, fyd, this.betonklasseAuswahl, guterVerbund, fbd, stabdurchmesser, dSchlaufe,
-				this.verankerungsartAuswahl, cd, angeschweißteQuerstaebe, querdruck, this.erforderlicheBew,
+				this.verankerungsartAuswahl, cd, a, c1, c, angeschweißteQuerstaebe, querdruck, this.erforderlicheBew,
 				this.vorhandeneBew, lbd, a1, a2, a3, a4, a5, ausnutzung, lbrqdy, lbmin));
 //		String ergebnisString = "Hier werden die Ergebnisse angezeigt :)\n";
 
@@ -288,10 +292,10 @@ public class Scene2Controller {
 		horizontalerAbstand = horizontalerAbstand.replace(",", "."); // Kommas durch Punkte ersetzen
 		try {
 			double doubleHorizontalerAbstand = Double.parseDouble(horizontalerAbstand);
-			this.horizontalerAbstand = doubleHorizontalerAbstand;
+			this.a = doubleHorizontalerAbstand;
 		} catch (NumberFormatException e) {
 			// Fehlermeldung anzeigen oder behandeln
-			System.out.println(" Methode submitHorizontalerAbstand Ungültige Eingabe: " + this.horizontalerAbstand);
+			System.out.println(" Methode submitHorizontalerAbstand Ungültige Eingabe: " + this.a);
 		}
 	}
 
@@ -300,11 +304,11 @@ public class Scene2Controller {
 		seitlicheBetondeckung = seitlicheBetondeckung.replace(",", "."); // Kommas durch Punkte ersetzen
 		try {
 			double doubleSeitlicheBetondeckung = Double.parseDouble(seitlicheBetondeckung);
-			this.betondeckungSeitlich = doubleSeitlicheBetondeckung;
+			this.c1 = doubleSeitlicheBetondeckung;
 //			System.out.println("Eingabe war: " + this.vorhandeneBew);
 		} catch (NumberFormatException e) {
 			// Fehlermeldung anzeigen oder behandeln
-			System.out.println(" Methode submitBetondeckungSeitlich Ungültige Eingabe: " + this.betondeckungSeitlich);
+			System.out.println(" Methode submitBetondeckungSeitlich Ungültige Eingabe: " + this.c1);
 		}
 	}
 
@@ -313,11 +317,11 @@ public class Scene2Controller {
 		obenUntenBetondeckung = obenUntenBetondeckung.replace(",", "."); // Kommas durch Punkte ersetzen
 		try {
 			double doubleObenUntenBetondeckung = Double.parseDouble(obenUntenBetondeckung);
-			this.betondeckungObenUnten = doubleObenUntenBetondeckung;
+			this.c = doubleObenUntenBetondeckung;
 //			System.out.println("Eingabe war: " + this.vorhandeneBew);
 		} catch (NumberFormatException e) {
 			// Fehlermeldung anzeigen oder behandeln
-			System.out.println(" Methode submitBetondeckungObenUnten Ungültige Eingabe: " + this.betondeckungObenUnten);
+			System.out.println(" Methode submitBetondeckungObenUnten Ungültige Eingabe: " + this.c);
 		}
 	}
 
@@ -342,48 +346,65 @@ public class Scene2Controller {
 
 		switch (buttonId) {
 		case "infoButtonVerankerungslaenge":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.VERANKERUNGSLAENGE);
 			break;
 		case "infoButtonZugDruckstab":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.ZUG_DRUCKSTAB);
 			break;
 		case "infoButtonVerankerungsart":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.VERANKERUNGSART);
 			break;
 		case "infoButtonDSchlaufe":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.DSCHLAUFE);
 			break;
 		case "infoButtonBetonklasse":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.BETONKLASSE);
 			break;
 		case "infoButtonVerbundbedingung":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.VERBUNDBEDINGUNG);
 			break;
 		case "infoButtonStabdurchmesser":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.STABDURCHMESSER);
 			break;
 		case "infoButtonAngeschweißteQuerstaebe":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.ANGESCHWEISSTE_QUERSTÄBE);
 			break;
 		case "infoButtonDirekteLagerung":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.DIREKTE_LAGERUNG);
 			break;
 		case "infoButtonEngeverbuegelung":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.ENGERVERBÜGELUNG);
 			break;
 		case "infoButtonHorizontalerAbstandDerLaengseisen":
-			infoFeld.setText(InfoTexte.HORIZONTALER_ABSTAND_LAENGSEISEN);
+			infoBild.setImage(null);
+			infoFeld.setText(InfoTexte.a);
+			Image img = new Image(getClass().getResource("/gui/Bilder/cd.PNG").toExternalForm());
+			infoBild.setImage(img);
 			break;
 		case "infoButtonBetondeckungSeitlich":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.BETONDECKUNG_SEITLICH);
 			break;
 		case "infoButtonBetondeckungObenUnten":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.BETONDECKUNG_OBEN_UNTEN);
 			break;
 		case "infoButtonErfBewehrung":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.ERFORDERLICHE_BEWEHRUNG);
 			break;
 		case "infoButtonVorBewehrung":
+			infoBild.setImage(null);
 			infoFeld.setText(InfoTexte.VORHANDENE_BEWEHRUNG);
 			break;
 		default:

@@ -185,8 +185,8 @@ public class Programm {
 			double lbmin = Calculation.berechnelbmin(zugstab, querdruck, ds, a1, a4, lbrqdy);
 			lbd = Math.max(lbd, lbmin);
 			String uebersicht = new String(Strings.uebersichtsAusgabe(zugstab, va, geraderStab, engeVerbuegelung, fyd,
-					betonguete, guterVerbund, fbd, ds, dSchlaufe, verankerungsart, cd, querstaebe, querdruck, erfBew,
-					vorhBew, lbd, a1, a2, a3, a4, a5, ausnutzung, lbrqdy, lbmin));
+					betonguete, guterVerbund, fbd, ds, dSchlaufe, verankerungsart, cd, a, c1, c, querstaebe, querdruck,
+					erfBew, vorhBew, lbd, a1, a2, a3, a4, a5, ausnutzung, lbrqdy, lbmin));
 			System.out.println(uebersicht);
 			System.out.println("Drücke c und bestätige mit Enter um Übersicht in Zwischenablage zu kopieren.");
 			String kopie = scanner.next();

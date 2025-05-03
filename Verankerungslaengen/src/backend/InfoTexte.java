@@ -139,7 +139,7 @@ public class InfoTexte {
 			auch wenn cd < 3⌀.
 
 			""";
-	public static final String HORIZONTALER_ABSTAND_LAENGSEISEN = """
+	public static final String a = """
 			INFO VERANKERUNGSARTEN
 			----------------------------------------------------------
 

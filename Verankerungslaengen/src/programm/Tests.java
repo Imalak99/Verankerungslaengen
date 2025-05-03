@@ -1,13 +1,12 @@
 package programm;
 
-import backend.Calculation;
+import javafx.scene.image.Image;
 
 public class Tests {
 	public static void main(String[] args) {
-		double a5;
-		a5 = Calculation.a5(true, true);
-		System.out.println(a5);
-		System.out.println(String.format("%-20s %10.2f", "Ergebnis:", 120.0));
+		infoBild.setImage(new Image(getClass().getResource(
+				"infoBild.setImage(new Image(getClass().getResource(\"/Bilder Info Texte/cd.png\").toExternalForm()));/cd.png")
+				.toExternalForm()));
 
 	}
 }
