@@ -9,6 +9,8 @@ public class Strings {
 			double ausnutzung, double lbrqdy, double lbmin) {
 		StringBuilder s = new StringBuilder();
 //		s.append("E R G E B N I S S E:\n===========\n");
+		s.append("B E R E C H N U N G S P R O T O K O L L\n");
+		s.append("--------------------------------------------\n");
 		s.append("RANDBEDINGUNGEN\n");
 		s.append(String.format(zugstab ? "Zugstab\n" : "Druckstab\n"));
 		s.append(String.format("Stahlfestigkeit fyd = 500/1,15 = %.2f [N/mm²]\n", fyd));
@@ -55,7 +57,7 @@ public class Strings {
 //					"lb,min = max {0,6 * lb,rqd,y ; 10 * ds}\n                           = max {0,6 * %.2f ; 10 * %.2f } \n       = max { %.2f ; %.2f}\n       = %.2f [mm]\n",
 //					lbrqdy, ds, 0.6 * lbrqdy, 10 * ds, lbmin));
 
-			s.append("lb,min = max {0,6 * lb,rqd,y ; 10 * ds}\n");
+			s.append(String.format("lb,min = max {0,6 * lb,rqd,y ; 10 * ds}\n"));
 			s.append(String.format("           = max {0,6 * %.2f ; 10 * %.2f }\n", lbrqdy, ds));
 			s.append(String.format("           = max { %.2f ; %.2f}\n", 0.6 * lbrqdy, 10 * ds));
 			s.append(String.format("           = %.2f [mm]\n", lbmin));
